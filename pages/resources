@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Climate Resources - Ecomomentum</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-green-50">
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-4xl font-bold mb-6 text-green-700 text-center">Climate Action Resources</h1>
+
+        <form method="GET" class="mb-6 max-w-lg mx-auto">
+            <div class="flex">
+                <input 
+                    type="text" 
+                    name="search" 
+                    placeholder="Search resources" 
+                    class="w-full px-4 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                >
+                <button 
+                    type="submit" 
+                    class="bg-green-600 text-white px-4 py-2 rounded-r-md hover:bg-green-700 transition duration-300"
+                >
+                    Search
+                </button>
+            </div>
+        </form>
+
+        <div class="mb-6 flex justify-center space-x-4">
+            <a href="?type=article" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-300">Articles</a>
+            <a href="?type=video" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-300">Videos</a>
+            <a href="?type=infographic" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-300">Infographics</a>
+            <a href="?type=scientific_paper" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-300">Scientific Papers</a>
+        </div>
+
+        <section class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <?php if (!empty($searchResults)): ?>
+                <?php foreach ($searchResults as $resource): ?>
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-xl font-semibold text-green-700 mb-2">
+                            <?php echo htmlspecialchars($resource['title']); ?>
+                        </h3>
+                        <p class="text-gray-600 mb-4">
+                            <?php echo htmlspecialchars($resource['description']); ?>
+                        </p>
+                        <a 
+                            href="<?php echo htmlspecialchars($resource['resource_url']); ?>" 
+                            target="_blank"
+                            class="text-green-600 hover:underline"
+                        >
+                            View Resource
+                        </a>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <?php foreach ($resources as $resource): ?>
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="text-xl font-semibold text-green-700 mb-2">
+                            <?php echo htmlspecialchars($resource['title']); ?>
+                        </h3>
+                        <p class="text-gray-600 mb-4">
+                            <?php echo htmlspecialchars($resource['description']); ?>
+                        </p>
+                        <div class="flex justify-between items-center">
+                            <small class="text-gray-500">
+                                Type: <?php echo htmlspecialchars($resource['resource_type']); ?>
+                            </small>
+                            <a 
+                                href="<?php echo htmlspecialchars($resource['resource_url']); ?>" 
+                                target="_blank"
+                                class="text-green-600 hover:underline"
+                            >
+                                View Resource
+                            </a>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </section>
+    </div>
+</body>
+</html>

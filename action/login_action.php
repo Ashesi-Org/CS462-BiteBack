@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Verify password
         if (password_verify($password, $user['password'])) {
             $_SESSION['success'] = "Login successful!";
-            $_SESSION['redirect'] = "dashboard.php"; // Add redirect path here
+            header('Location: ../admin/adminDashboard.php'); // Add redirect path here
         } else {
             $_SESSION['error'] = "Invalid email or password.";
         }
@@ -38,6 +38,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['error'] = "Invalid email or password.";
     }
 
-    header('Location: login.php');
+    header('Location: ../admin/adminDashboard.php');
     exit();
 }

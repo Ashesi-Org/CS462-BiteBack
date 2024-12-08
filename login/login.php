@@ -1,6 +1,6 @@
 <?php
-include_once "../settings/connection.php";
-include_once "../action/login_action.php";
+session_start();  // Start the session
+include_once "../settings/connection.php";  // Include the database connection
 ?>
 
 <!DOCTYPE html>
@@ -34,7 +34,6 @@ include_once "../action/login_action.php";
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
         }
 
         .login-container {
@@ -44,21 +43,6 @@ include_once "../action/login_action.php";
             width: 100%;
             max-width: 450px;
             padding: 40px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .login-container::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: var(--gradient-primary);
-            transform: rotate(-45deg);
-            z-index: -1;
-            opacity: 0.1;
         }
 
         .logo {
@@ -117,38 +101,10 @@ include_once "../action/login_action.php";
             transform: scale(1.05);
         }
 
-        .social-login {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .social-btn {
-            background: none;
-            border: 2px solid #e0e0e0;
-            padding: 10px 20px;
-            border-radius: 50px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: all 0.3s ease;
-        }
-
-        .social-btn:hover {
-            background: var(--gradient-secondary);
-            color: var(--white);
-            border-color: transparent;
-        }
-
         .register-link {
             text-align: center;
             margin-top: 20px;
             font-size: 0.9rem;
-        }
-        .error-messages {
-            color: #e74c3c;
-            margin-bottom: 15px;
         }
     </style>
 </head>
@@ -158,7 +114,7 @@ include_once "../action/login_action.php";
             <i class="fas fa-leaf"></i>
             <h2>EcoMomentum</h2>
         </div>
-        <form action="login.php" method="POST" class="login-form" action="../action/login_action.php">
+        <form action="../action/login_action.php" method="POST" class="login-form">
             <div class="form-group">
                 <label for="email">Email</label>
                 <input type="email" name="email" id="email" required>
@@ -172,39 +128,30 @@ include_once "../action/login_action.php";
                 Don't have an account? <a href="register.php">Register</a>
             </div>
         </form>
-        <div class="error-messages">
-    <?php if (!empty($_SESSION['error'])): ?>
-        <p><?php echo $_SESSION['error']; ?></p>
-    <?php endif; ?>
-</div>
+    </div>
 
-<script>
-   
-    document.addEventListener('DOMContentLoaded', function() {
-        <?php if (!empty($_SESSION['error'])): ?>
-            Swal.fire({
-                icon: 'error',
-                title: 'Error!',
-                text: '<?php echo $_SESSION['error']; ?>',
-            });
-            <?php unset($_SESSION['error']); ?>
-        <?php endif; ?>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            <?php if (!empty($_SESSION['error'])): ?>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: '<?php echo $_SESSION['error']; ?>',
+                });
+                <?php unset($_SESSION['error']); ?>
+            <?php endif; ?>
 
-        <?php if (!empty($_SESSION['success'])): ?>
-            Swal.fire({
-                icon: 'success',
-                title: 'Success!',
-                text: '<?php echo $_SESSION['success']; ?>',
-            }).then(() => {
-                // Redirect after success alert
-                window.location.href = '<?php echo $_SESSION['redirect']; ?>';
-            });
-            <?php unset($_SESSION['success'], $_SESSION['redirect']); ?>
-        <?php endif; ?>
-    });
-</script>
-
-
+            <?php if (!empty($_SESSION['success'])): ?>
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: '<?php echo $_SESSION['success']; ?>',
+                }).then(() => {
+                    window.location.href = '<?php echo $_SESSION['redirect']; ?>';
+                });
+                <?php unset($_SESSION['success'], $_SESSION['redirect']); ?>
+            <?php endif; ?>
+        });
+    </script>
 </body>
-
 </html>

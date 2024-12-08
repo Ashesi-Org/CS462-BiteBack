@@ -1,81 +1,73 @@
 <?php
 session_start();
-include "../settings/connection.php"; 
+include "../settings/connection.php";
 
-// Check if form is submitted
+if (!$con) {
+    error_log("Database connection failed.", 3, "errors.log");
+    die("Database connection failed.");
+}
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Sanitize and validate inputs
-    $fullName = filter_var($_POST['fullName'], FILTER_SANITIZE_STRING);
     $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
     $password = $_POST['password'];
     $confirmPassword = $_POST['confirmPassword'];
+    $full_name = htmlspecialchars($_POST['fullName'], ENT_QUOTES, 'UTF-8');
+    $isAdmin = isset($_POST['isAdmin']) && $_POST['isAdmin'] == '1';
 
-    // Enhanced Validation
     $errors = [];
 
-    if (empty($fullName)) {
-        $errors[] = "Full name is required";
-    }
-
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $errors[] = "Invalid email format";
+        $errors[] = "Invalid email format.";
     }
-
-    // Enhanced password validation
     if (strlen($password) < 8) {
-        $errors[] = "Password must be at least 8 characters long";
+        $errors[] = "Password must be at least 8 characters long.";
     }
-
-    if (!preg_match('/[A-Z]/', $password)) {
-        $errors[] = "Password must contain at least one capital letter";
-    }
-
-    if (!preg_match('/[0-9]/', $password)) {
-        $errors[] = "Password must contain at least one number";
-    }
-
-    if (!preg_match('/[!@#$%^&*]/', $password)) {
-        $errors[] = "Password must contain at least one symbol (!@#$%^&*)";
-    }
-
     if ($password !== $confirmPassword) {
-        $errors[] = "Passwords do not match";
+        $errors[] = "Passwords do not match.";
+    }
+    if (empty($full_name)) {
+        $errors[] = "Full name is required.";
     }
 
-    // Check if email already exists
-    $stmt = $con->prepare("SELECT * FROM users WHERE email = ?");
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    if ($result->num_rows > 0) {
-        $errors[] = "Email is already registered";
-    }
-
-    // If no errors, proceed with registration
-    if (empty($errors)) {
-        // Hash password
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-
-        // Prepare SQL to insert new user
-        $insertStmt = $con->prepare("INSERT INTO users (full_name, email, password, role) VALUES (?, ?, ?, ?)");
-        $defaultRole = 1; // Default user role
-        $insertStmt->bind_param("sssi", $fullName, $email, $hashedPassword, $defaultRole);
-
-        if ($insertStmt->execute()) {
-            // Registration successful
-            $_SESSION['success'] = "Registration successful. Please login.";
-            header('Location: ../login/login.php');
-            exit();
-        } else {
-            $_SESSION['error'] = "Registration failed: " . $insertStmt->error;
-            header('Location: ../login/register.php');
-            exit();
-        }
-    } else {
-        // Store errors in session and redirect back to registration
+    if (!empty($errors)) {
         $_SESSION['errors'] = $errors;
-        header('Location: ../login/register.php');
+        header("Location: ../views/register.php");
+        exit();
+    }
+
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+    try {
+        if ($isAdmin) {
+            // Admin registration
+            $stmt = $con->prepare("INSERT INTO users (email, password, full_name, role_id) VALUES (?, ?, ?, 1)");
+            if (!$stmt) {
+                throw new Exception("Query preparation failed: " . $con->error);
+            }
+            $stmt->bind_param("sss", $email, $hashedPassword, $full_name);
+            if (!$stmt->execute()) {
+                throw new Exception("Query execution failed: " . $stmt->error);
+            }
+            $_SESSION['message'] = "Admin registered successfully!";
+        } else {
+            // Regular user registration
+            $stmt = $con->prepare("INSERT INTO users (email, password, full_name, role_id) VALUES (?, ?, ?, 2)");
+            if (!$stmt) {
+                throw new Exception("Query preparation failed: " . $con->error);
+            }
+            $stmt->bind_param("sss", $email, $hashedPassword, $full_name);
+            if (!$stmt->execute()) {
+                throw new Exception("Query execution failed: " . $stmt->error);
+            }
+            $_SESSION['message'] = "User registered successfully!";
+        }
+
+        header("Location: ../login/login.php");
+        exit();
+    } catch (Exception $e) {
+        error_log($e->getMessage(), 3, "errors.log");
+        $_SESSION['errors'] = ["A system error occurred. Please try again later."];
+        header("Location: ../views/register.php");
         exit();
     }
 }

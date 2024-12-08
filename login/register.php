@@ -1,4 +1,5 @@
 <?php
+// Include necessary files
 include "../settings/connection.php";
 include "../action/register_action.php";
 ?>
@@ -18,7 +19,7 @@ include "../action/register_action.php";
             --gradient-secondary: linear-gradient(135deg, #3498db, #2980b9);
             --white: #ffffff;
             --text-dark: #2c3e50;
-            --soft-shadow: rgba(0,0,0,0.1);
+            --soft-shadow: rgba(0, 0, 0, 0.1);
         }
 
         * {
@@ -39,7 +40,7 @@ include "../action/register_action.php";
         .register-container {
             background: var(--white);
             border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
             width: 100%;
             max-width: 450px;
             padding: 40px;
@@ -98,7 +99,7 @@ include "../action/register_action.php";
         .form-group input:focus {
             border-color: #2ecc71;
             outline: none;
-            box-shadow: 0 0 10px rgba(46,204,113,0.2);
+            box-shadow: 0 0 10px rgba(46, 204, 113, 0.2);
         }
 
         .register-btn {
@@ -114,30 +115,6 @@ include "../action/register_action.php";
 
         .register-btn:hover {
             transform: scale(1.05);
-        }
-
-        .social-login {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .social-btn {
-            background: none;
-            border: 2px solid #e0e0e0;
-            padding: 10px 20px;
-            border-radius: 50px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: all 0.3s ease;
-        }
-
-        .social-btn:hover {
-            background: var(--gradient-secondary);
-            color: var(--white);
-            border-color: transparent;
         }
 
         .login-link {
@@ -163,7 +140,7 @@ include "../action/register_action.php";
         <?php if (isset($_SESSION['errors'])): ?>
             <ul class="error-list">
                 <?php foreach ($_SESSION['errors'] as $error): ?>
-                    <li><?= $error ?></li>
+                    <li><?= htmlspecialchars($error) ?></li>
                 <?php endforeach; ?>
             </ul>
             <?php unset($_SESSION['errors']); ?>
@@ -186,8 +163,11 @@ include "../action/register_action.php";
                 <label for="confirmPassword">Confirm Password</label>
                 <input type="password" id="confirmPassword" name="confirmPassword" required>
             </div>
+            <div class="form-group">
+                <label for="isAdmin">Register as Admin?</label>
+                <input type="checkbox" id="isAdmin" name="isAdmin" value="1">
+            </div>
             <button type="submit" class="register-btn">Create Account</button>
-           
             <div class="login-link">
                 Already have an account? <a href="login.php">Login</a>
             </div>
@@ -201,13 +181,12 @@ include "../action/register_action.php";
             const password = document.getElementById('password').value;
             const confirmPassword = document.getElementById('confirmPassword').value;
 
-            // Validation
             if (!fullName || !email || !password || !confirmPassword) {
                 e.preventDefault();
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
-                    text: 'Please fill in all fields',
+                    text: 'Please fill in all fields.',
                 });
                 return;
             }
@@ -217,7 +196,7 @@ include "../action/register_action.php";
                 Swal.fire({
                     icon: 'error',
                     title: 'Password Mismatch',
-                    text: 'Passwords do not match',
+                    text: 'Passwords do not match.',
                 });
                 return;
             }
@@ -227,7 +206,7 @@ include "../action/register_action.php";
                 Swal.fire({
                     icon: 'error',
                     title: 'Weak Password',
-                    text: 'Password must be at least 8 characters long',
+                    text: 'Password must be at least 8 characters long.',
                 });
                 return;
             }

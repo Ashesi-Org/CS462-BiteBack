@@ -1,1 +1,1 @@
-# CS462-BiteBack
+# CS462-EcoMomentum

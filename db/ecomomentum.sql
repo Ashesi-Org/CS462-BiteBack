@@ -87,3 +87,20 @@ CREATE TABLE IF NOT EXISTS user_activities (
     activity_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Date and time of the activity
     FOREIGN KEY (user_id) REFERENCES users(id) -- Foreign key referencing 'users'
 );
+
+-- Create the table (if not already created)
+CREATE TABLE IF NOT EXISTS impact_content (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL UNIQUE,
+    description TEXT NOT NULL
+);
+
+-- Insert data into the table
+INSERT INTO impact_content (title, description) VALUES
+('Mission', 'Our mission is to mobilise and empower millions of young activists globally to demand urgent climate action from world leaders.'),
+('Achievements', 'We’ve successfully organised over 14,000 climate strikes across 7,500 cities and influenced policy changes in several countries.'),
+('Impact', 'The movement has reached over 10 million participants worldwide, fostering awareness, resilience, and hope for a sustainable future.'),
+('Future Goals', 'By 2030, we aim to mobilise 100 million individuals, with concrete changes in emissions policies globally.');
+
+);
+

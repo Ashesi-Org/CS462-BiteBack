@@ -95,6 +95,13 @@
             </div>
         </div>
 
+        <!-- Single Form for Uploading Profile Picture -->
+        <form id="upload-form" action="../action/user_profile.php" method="POST" enctype="multipart/form-data">
+            <label for="picture">Choose a profile picture:</label>
+            <input type="file" name="picture" accept="image/*" required>
+            <input type="submit" value="Upload Picture">
+        </form>
+
         <!-- Dashboard Section -->
         <div class="card">
             <h3>Your Dashboard</h3>
@@ -133,7 +140,7 @@
         });
 
         function fetchData() {
-            fetch('../action/get_user_data.php')
+            fetch('../action/user_profile.php')
                 .then(response => response.json())
                 .then(data => {
                     if (data.status === "success") {
@@ -166,6 +173,26 @@
             resourcesList.innerHTML = saved_resources.map(resource => 
                 `<li><a href="${resource.url}" target="_blank">${resource.title}</a></li>`).join("");
         }
-    </script>
-</body>
-</html>
+        
+        document.getElementById("upload-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const formData = new FormData(this);
+    fetch('../action/user_profile.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            alert(data.message);
+            // Update the profile image on the page with the base64-encoded image data
+            document.getElementById("profile-image").src = `data:image/jpeg;base64,${data.image}`;
+        } else {
+            alert(data.message);
+        }
+    })
+    .catch(error => console.error("Error:", error));
+});
+
+

@@ -87,3 +87,40 @@ CREATE TABLE IF NOT EXISTS user_activities (
     activity_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Date and time of the activity
     FOREIGN KEY (user_id) REFERENCES users(id) -- Foreign key referencing 'users'
 );
+
+-- Create the table (if not already created)
+CREATE TABLE IF NOT EXISTS impact_content (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL UNIQUE,
+    description TEXT NOT NULL
+);
+
+-- Insert data into the table
+INSERT INTO impact_content (title, description) VALUES
+('Mission', 'Our mission is to mobilise and empower millions of young activists globally to demand urgent climate action from world leaders.'),
+('Achievements', 'We’ve successfully organised over 14,000 climate strikes across 7,500 cities and influenced policy changes in several countries.'),
+('Impact', 'The movement has reached over 10 million participants worldwide, fostering awareness, resilience, and hope for a sustainable future.'),
+('Future Goals', 'By 2030, we aim to mobilise 100 million individuals, with concrete changes in emissions policies globally.');
+
+);
+
+-- Create the mentors table
+CREATE TABLE IF NOT EXISTS mentors (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    expertise VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    twitter VARCHAR(255),
+    linkedin VARCHAR(255),
+    description TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Insert default data into the mentors table
+INSERT INTO mentors (name, expertise, email, twitter, linkedin, description) VALUES
+('Dr. Sarah Green', 'Renewable Energy and Policy', 'sarah.green@hotmail.com', 'https://twitter.com/sarahgreen', 'https://linkedin.com/in/sarahgreen', 'Dr. Green has over 15 years of experience in climate policy and renewable energy solutions. She has guided multiple projects in Europe and Africa, focusing on clean energy transitions.'),
+('Mr. James Eco', 'Sustainable Agriculture', 'james.eco@hotmail.com', 'https://twitter.com/jameseco', 'https://linkedin.com/in/jameseco', 'Mr. Eco specialises in sustainable farming practices and agroecology. With a decade of experience, he has mentored numerous activists in creating impactful agricultural reforms.'),
+('Ms. Angela Woods', 'Urban Sustainability', 'angela.woods@hotmail.com', 'https://twitter.com/angelawoods', 'https://linkedin.com/in/angelawoods', 'Ms. Woods has worked extensively on urban greening projects, helping cities incorporate sustainable practices. Her mentorship is perfect for those passionate about eco-friendly urban planning.'),
+('Prof. Richard Leaf', 'Environmental Economics', 'richard.leaf@hotmail.com', 'https://twitter.com/richardleaf', 'https://linkedin.com/in/richardleaf', 'Prof. Leaf is an economist who connects environmental preservation with economic benefits. He has advised governments on climate investments and eco-tourism development.');
+
+

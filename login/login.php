@@ -114,7 +114,7 @@ include_once "../settings/connection.php";  // Include the database connection
             <i class="fas fa-leaf"></i>
             <h2>EcoMomentum</h2>
         </div>
-        <form action="../action/login_action.php" method="POST" class="login-form">
+        <form action="../action/login_action.php" method="POST" class="login-form"> 
             <div class="form-group">
                 <label for="email">Email</label>
                 <input type="email" name="email" id="email" required>
@@ -155,3 +155,4 @@ include_once "../settings/connection.php";  // Include the database connection
     </script>
 </body>
 </html>
+

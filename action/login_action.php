@@ -1,6 +1,10 @@
 <?php
 session_start();
 
+// Enable error reporting for debugging
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
 // Include the database connection file
 require_once '../settings/connection.php';
 
@@ -34,6 +38,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Verify password
         if (password_verify($password, $user['password'])) {
+            // Regenerate session ID for security
+            session_regenerate_id(true);
+
             // Set session variables
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['role_id'] = $user['role_id'];
@@ -41,17 +48,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             // Redirect based on role
             if ($user['role_id'] == 1) { // Role 1 is admin
-                header("Location: ../admin/admin_dashboard_page.php");
+                header("Location: ../admin/admin_dashboard_page.php"); // Admin dashboard
                 exit();
-            } else {
-                header("Location: user_dashboard.php");
+            } else { // Regular user
+                header("Location: ../login/user_profile.php"); // User profile
                 exit();
             }
         } else {
-            die("Invalid email or password.");
+            $_SESSION['error'] = "Invalid email or password.";
+            header("Location: ../login/login_page.php"); // Redirect back to login page with error
+            exit();
         }
     } else {
-        die("Invalid email or password.");
+        $_SESSION['error'] = "Invalid email or password.";
+        header("Location: ../login/login_page.php"); // Redirect back to login page with error
+        exit();
     }
 }
 ?>

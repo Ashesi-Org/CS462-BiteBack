@@ -1,0 +1,8 @@
+FROM php:8.2-apache
+WORKDIR /var/www/html
+COPY action/ /var/www/html/action
+COPY admin/ /var/www/html/admin
+COPY login/ /var/www/html/login
+COPY settings/ /var/www/html/settings
+EXPOSE 80
+CMD ["apache2-foreground"]

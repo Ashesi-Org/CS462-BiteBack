@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"  
+    depends_on:
+      - backend  
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80" 
+    depends_on:
+      - database  
+
+  database:
+    build:
+      context: ./database
+      dockerfile: Dockerfile
+    environment:
+      MYSQL_ROOT_PASSWORD: root  # Set MySQL root password
+      MYSQL_DATABASE: ecomomentum  # Create the ecomomentum database
+    ports:
+      - "3306:3306"  # Expose the database on port 3306

@@ -1,0 +1,6 @@
+FROM php:8.2-apache
+WORKDIR /var/www/html
+COPY view/ /var/www/html/view
+COPY settings/connection.php /var/www/html/settings/
+EXPOSE 80
+CMD ["apache2-foreground"]

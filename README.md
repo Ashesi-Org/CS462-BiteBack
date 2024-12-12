@@ -98,7 +98,11 @@ Continuos feedback
 We used Datadog ,puppet.
 
 Some pictures of our website 
+![image](https://github.com/user-attachments/assets/a3f37356-714f-4aef-9ab7-0b7de75d893b)
+
 ![WhatsApp Image 2024-12-12 at 10 21 56_762646ea](https://github.com/user-attachments/assets/3e08cac3-2fa9-4f66-8176-f5fa1303ca66)
+
+
 
 ![WhatsApp Image 2024-12-12 at 10 23 59_aa161fd4](https://github.com/user-attachments/assets/e693b28d-ec9e-42d5-920d-84929d7d0068)
 

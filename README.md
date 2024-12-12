@@ -37,6 +37,7 @@ Volunteer Coordination Service: Enables users to sign up for volunteer roles in 
 
 AI Services
 Smart Waste Management Advisor: An AI-driven system designed to assist users in making sustainable waste management decisions, integrated with the platform for enhanced user experience.
+https://huggingface.co/spaces/ELiOkine/EcoTrash 
 
 Data Layer
 MySQL Database: Stores user data, event details, participation logs, and educational content.
@@ -92,6 +93,19 @@ Below are the screenshots
 ![containerization](https://github.com/user-attachments/assets/6371b8df-e67b-4fa1-ae95-7ed2147d009a)
 ![Containerization2 ](https://github.com/user-attachments/assets/67268d4b-4966-491b-8193-5fbc80a62803)
 ![docker container ](https://github.com/user-attachments/assets/033313bb-c14a-4a74-b8cc-37e69548e17a)
+
+
+CONTAINERISATION AND ORCHESTRATION - DOCKER 
+
+WHY DOCKER AND NOT KUBERNETES 
+
+1.Straightforward to set up and ideal for smaller projects( we had few containers to manage ).
+
+2.Docker was simpler and quick to implement compared to kubernetes.
+
+3.Docker consumes less resources and is lightweight 
+
+4.We felt as a team that it was easier to manage within the timeframe  .
 
 
 Continuos feedback 

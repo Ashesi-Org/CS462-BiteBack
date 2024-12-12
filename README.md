@@ -125,6 +125,16 @@ Some pictures of our website
 ![WhatsApp Image 2024-12-12 at 10 27 07_c2489cd1](https://github.com/user-attachments/assets/160e58b3-f495-454a-8566-87aff691ff01)
 ![WhatsApp Image 2024-12-12 at 10 31 38_73fd015b](https://github.com/user-attachments/assets/647e20f1-5a78-478a-8287-6c87d340fd5a)
 
+Datadog setup
+![image](https://github.com/user-attachments/assets/ea992ec6-7ddb-431d-91b1-18f404812b1e)
+
+Puppet Setup
+![image](https://github.com/user-attachments/assets/811e2538-82c1-4546-96d3-6172ecc37026)
+
+Grafana and Prometheus Setup
+![image](https://github.com/user-attachments/assets/28287616-6f40-4cfb-94f2-4dc5f869fb33)
+
+
 
 
 
